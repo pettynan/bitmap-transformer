@@ -8,6 +8,8 @@ Transformations include:
 
 To change the image used, change the image.png with your own image (must be png).
 
+To execute program, use ./gradlew run.
+
 ## Authors
 Peter Tynan & Roger Huba
 
