@@ -22,6 +22,10 @@ public class App {
 
 
         BufferedImage image = ImageIO.read(new File(fileInput));
+
+        Bitmap inputImage = new Bitmap(image.getHeight(), image.getWidth(), fileInput);
+
+
         int height = image.getHeight();
         int width = image.getWidth();
 
@@ -41,6 +45,7 @@ public class App {
                 image.setRGB(j, i, p);
             }
         }
+
         System.out.println("Iterated through entire photo");
 
         try{
@@ -48,9 +53,41 @@ public class App {
         } catch(IOException e){
             System.out.println(e);
         }
-
-
     }
+
+
+//    public class Bitmap {
+//
+//        int height;
+//        int width;
+//        String filePath;
+//
+//
+//
+//
+//        public Bitmap(int height, int width, String filePath) {
+//            this.height = height;
+//            this.width = width;
+//            this.filePath = filePath;
+//
+//        }
+//
+////        public void getImage() {
+////
+////            try{
+////                BufferedImage image = ImageIO.read(new File("./image.png"));
+////
+////            } catch(IOException e){
+////                System.out.println(e);
+////            }
+//
+//
+//
+//
+//        }
+//
+//    }
+
 
 
 }
