@@ -15,22 +15,26 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         String fileInput = "./image.png";
-        String fileOutput = "./output.png";
 
+        greyScale(fileInput);
 
+        pixelize(fileInput);
 
+        invertColor(fileInput);
 
+    }
+
+    public static void greyScale(String fileInput) throws Exception {
+        String fileOutput = "output_greyScale.png";
 
         BufferedImage image = ImageIO.read(new File(fileInput));
+
 
         Bitmap inputImage = new Bitmap(image.getHeight(), image.getWidth(), fileInput);
 
 
-        int height = image.getHeight();
-        int width = image.getWidth();
-
-        for (int i = 0 ; i < height ; i++) {
-            for (int j = 0 ; j < width ; j++) {
+        for (int i = 0 ; i < inputImage.height ; i++) {
+            for (int j = 0 ; j < inputImage.width ; j++) {
 
                 int p = image.getRGB(j,i);
                 int a = (p>>24)&0xff;
@@ -56,38 +60,77 @@ public class App {
     }
 
 
-//    public class Bitmap {
-//
-//        int height;
-//        int width;
-//        String filePath;
-//
-//
-//
-//
-//        public Bitmap(int height, int width, String filePath) {
-//            this.height = height;
-//            this.width = width;
-//            this.filePath = filePath;
-//
-//        }
-//
-////        public void getImage() {
-////
-////            try{
-////                BufferedImage image = ImageIO.read(new File("./image.png"));
-////
-////            } catch(IOException e){
-////                System.out.println(e);
-////            }
-//
-//
-//
-//
-//        }
-//
-//    }
+    public static void pixelize(String fileInput) throws Exception {
+        String fileOutput = "output_pixelize.png";
+
+        BufferedImage image = ImageIO.read(new File(fileInput));
 
 
+        Bitmap inputImage = new Bitmap(image.getHeight(), image.getWidth(), fileInput);
 
+
+        for (int i = 0 ; i < inputImage.height ; i++) {
+            for (int j = 0 ; j < inputImage.width ; j++) {
+
+                int p = image.getRGB(j,i);
+                int a = (p>>24)&0xff;
+                int r = (p>>16)&0xff;
+                int g = (p>>8)&0xff;
+                int b = p&0xff;
+
+                r = (int) (Math.random() * r);
+                g = (int) (Math.random() * g);
+                b = (int) (Math.random() * b);
+
+                p = (a<<24) | (r<<16) | (g<<8) | b;
+
+                image.setRGB(j, i, p);
+            }
+        }
+
+        System.out.println("Iterated through entire photo");
+
+        try{
+            ImageIO.write(image, "png", new File(fileOutput));
+        } catch(IOException e){
+            System.out.println(e);
+        }
+    }
+
+    public static void invertColor(String fileInput) throws Exception {
+        String fileOutput = "output_invertColor.png";
+
+        BufferedImage image = ImageIO.read(new File(fileInput));
+
+
+        Bitmap inputImage = new Bitmap(image.getHeight(), image.getWidth(), fileInput);
+
+
+        for (int i = 0 ; i < inputImage.height ; i++) {
+            for (int j = 0 ; j < inputImage.width ; j++) {
+
+                int p = image.getRGB(j,i);
+                int a = (p>>24)&0xff;
+                int r = (p>>16)&0xff;
+                int g = (p>>8)&0xff;
+                int b = p&0xff;
+
+                r = 255 - r;
+                g = 255 - g;
+                b = 255 - b;
+
+                p = (a<<24) | (r<<16) | (g<<8) | b;
+
+                image.setRGB(j, i, p);
+            }
+        }
+
+        System.out.println("Iterated through entire photo");
+
+        try{
+            ImageIO.write(image, "png", new File(fileOutput));
+        } catch(IOException e){
+            System.out.println(e);
+        }
+    }
 }
