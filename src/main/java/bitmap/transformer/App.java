@@ -3,12 +3,54 @@
  */
 package bitmap.transformer;
 
+import java.io.File;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+
+//import java.io.BufferedReader;
+//import java.io.InputStreamReader;
+
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
+
+    public static void main(String[] args) throws Exception {
+        String fileInput = "./image.png";
+        String fileOutput = "./output.png";
+
+
+
+
+
+        BufferedImage image = ImageIO.read(new File(fileInput));
+        int height = image.getHeight();
+        int width = image.getWidth();
+
+        for (int i = 0 ; i < height ; i++) {
+            for (int j = 0 ; j < width ; j++) {
+
+                int p = image.getRGB(j,i);
+                int a = (p>>24)&0xff;
+                int r = (p>>16)&0xff;
+                int g = (p>>8)&0xff;
+                int b = p&0xff;
+
+                int avg = (r + b + g );
+
+                p = (a<<24) | (avg<<16) | (avg<<8) | avg;
+
+                image.setRGB(j, i, p);
+            }
+        }
+        System.out.println("Iterated through entire photo");
+
+        try{
+            ImageIO.write(image, "png", new File(fileOutput));
+        } catch(IOException e){
+            System.out.println(e);
+        }
+
+
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-    }
+
 }
