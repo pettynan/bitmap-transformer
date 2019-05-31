@@ -8,9 +8,6 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
 
-//import java.io.BufferedReader;
-//import java.io.InputStreamReader;
-
 public class App {
 
     public static void main(String[] args) throws Exception {
@@ -21,6 +18,10 @@ public class App {
         pixelize(fileInput);
 
         invertColor(fileInput);
+
+        rotate180(fileInput);
+
+        System.out.println("4 transformations completed.");
 
     }
 
@@ -49,8 +50,6 @@ public class App {
                 image.setRGB(j, i, p);
             }
         }
-
-        System.out.println("Iterated through entire photo");
 
         try{
             ImageIO.write(image, "png", new File(fileOutput));
@@ -88,8 +87,6 @@ public class App {
             }
         }
 
-        System.out.println("Iterated through entire photo");
-
         try{
             ImageIO.write(image, "png", new File(fileOutput));
         } catch(IOException e){
@@ -125,7 +122,34 @@ public class App {
             }
         }
 
-        System.out.println("Iterated through entire photo");
+        try{
+            ImageIO.write(image, "png", new File(fileOutput));
+        } catch(IOException e){
+            System.out.println(e);
+        }
+    }
+
+
+
+    public static void rotate180(String fileInput) throws Exception {
+        String fileOutput = "output_rotate180.png";
+
+        BufferedImage image = ImageIO.read(new File(fileInput));
+
+
+        Bitmap inputImage = new Bitmap(image.getHeight(), image.getWidth(), fileInput);
+
+
+        for (int i = 0 ; i < inputImage.height ; i++) {
+            for (int j = 0 ; j < inputImage.width / 2 ; j++) {
+
+                int p1 = image.getRGB(j,i);
+                int p2 = image.getRGB(inputImage.width - j - 1,inputImage.height - i - 1);
+
+                image.setRGB(inputImage.width - j - 1, inputImage.height - i - 1, p1);
+                image.setRGB(j, i, p2);
+            }
+        }
 
         try{
             ImageIO.write(image, "png", new File(fileOutput));
